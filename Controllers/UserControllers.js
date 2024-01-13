@@ -19,16 +19,17 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("email is already taken try with a different one");
   }
   let hashedPassword = await bcrypt.hash(password, 10);
-  const token = jwt.sign(
-    { userId: newUser._id, email: newUser.email, type: newUser.type },
-    process.env.SECRET_KEY,
-    { expiresIn: "24h" }
-  );
+
   const newUser = await Users.create({
     type,
     email,
     password: hashedPassword,
   });
+  const token = jwt.sign(
+    { userId: newUser._id, email: newUser.email, type: newUser.type },
+    process.env.SECRET_KEY,
+    { expiresIn: "24h" }
+  );
   res.status(201).json({
     _id: newUser._id,
     email: newUser.email,

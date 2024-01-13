@@ -12,7 +12,9 @@ app.use(express.json());
 DBConnect();
 
 app.use(errorHandler);
- 
+
+app.use("/api/users", require("./Routes/UserRoutes"));
+
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
